@@ -4,6 +4,7 @@
     max-width: 100%; /* Ensure it doesn't exceed the screen width */
 }
 
+
 .home-page {
     background-image: url("/Applications/Find_Surfing_Lessons/find-surfing-lessons/public/images/home-page-background.jpg"); 
     background-size: cover;

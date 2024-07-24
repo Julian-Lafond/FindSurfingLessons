@@ -22,4 +22,45 @@
 
 .header-tags h3 {
     margin-left: 2.5rem;
+    
+}
+
+.header-tags a, .header a {
+    text-decoration: none;
+    color: inherit; /* Ensure link color matches parent */
+    position: relative; /* For positioning the pseudo-element */
+    font-weight: 500; /* Slightly bold text */
+    transition: color 0.3s ease, transform 0.3s ease; /* Smooth color and transform transition */
+}
+
+.header-tags a:visited, .header a:visited {
+    color: inherit; /* Maintains color of visited links */
+}
+
+.header-tags a:hover, .header a:hover {
+    color:  #0077be; /* Hover color */
+    transform: scale(1.05); /* Slightly enlarge the link on hover */
+}
+
+.header-tags a:active, .header a:active {
+    color:  #0077be; /* Color when link is clicked */
+    transform: scale(0.95); /* Slightly shrink the link on click */
+}
+
+/* Adjusted underline position */
+.header-tags a::after, .header a::after  {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -1px; /* Move the underline closer to the text */
+    width: 0;
+    height: 2px;
+    background-color:  #0077be; /* Underline color */
+    transition: width 0.3s ease; /* Smooth underline transition */
+}
+
+.header-tags a:hover::after {
+    width: 90%; /* Expand underline on hover */
+    margin-left: 2rem;
 }
