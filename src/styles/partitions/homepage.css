@@ -1,34 +1,57 @@
-.surf-lesson-image img {
-    height: 25rem;
-    width: 100%; /* Make the image responsive */
-    max-width: 100%; /* Ensure it doesn't exceed the screen width */
-}
+/* General styles */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Roboto:wght@400;700&display=swap');
 
-
+/* Home Page Styles */
 .home-page {
-    background-image: url("/Applications/Find_Surfing_Lessons/find-surfing-lessons/public/images/home-page-background.jpg"); 
+    background-image: url("/Applications/Find_Surfing_Lessons/find-surfing-lessons/public/images/home-page-background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     display: flex;
-    flex-direction: row;
-    text-align: center;
-    align-items: center;
     justify-content: center;
-    color: white;
+    align-items: center;
     height: 100vh;
+    color: white;
+}
+
+.home-page-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 2px solid rgba(0, 119, 190, 0.8); /* Ocean blue border with some transparency */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    color: black;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 1000px;
+    height: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Slightly darker shadow for better contrast */
+    text-align: center;
+}
+
+.surf-lesson-image img {
+    height: 25rem;
+    width: 100%; /* Make the image responsive */
+    max-width: 100%; /* Ensure it doesn't exceed the screen width */
+    border-radius: 10px; /* Rounded corners for the image */
 }
 
 .home-page-text {
     display: flex;
     flex-direction: column;
     align-items: center; /* Center content horizontally */
-    margin-left: 5rem; /* Adjust for larger screens */
+    margin-top: 2rem; /* Space between image and text */
+
 }
 
 .home-page-text h1 {
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
+    font-family: 'Lobster', cursive; /* Apply Lobster font for a cooler look */
+    font-size: 2rem;
     color: black;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+    margin-bottom: 3rem;
 }
 
 button {

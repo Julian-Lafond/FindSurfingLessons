@@ -3,10 +3,64 @@
 body, html {
     margin: 0;
     padding: 0;
+    
 }
 
 @import "styles/partitions/navbar.css";
 @import "styles/partitions/homepage.css";
+
+/* Apply a Google Font for a more stylish look */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Roboto:wght@400;700&display=swap');
+
+.apply-to-coach-container {
+    background-image: url("/Applications/Find_Surfing_Lessons/find-surfing-lessons/public/images/home-page-background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    
+}
+
+.apply-to-coach {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center elements within the box */
+    border: 2px solid rgba(0, 119, 190, 0.8); /* Ocean blue border with some transparency */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    color: black;
+    padding: 3rem; /* Adjusted padding for better spacing */
+    border-radius: 10px;
+    width: 60%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Slightly darker shadow for better contrast */
+    margin-left: 0; /* Centered box, no left margin */
+    text-align: center; /* Center text inside the box */
+    font-family: 'Roboto', sans-serif; /* Apply Roboto font */
+    margin-left: 7rem;
+    margin-bottom: 5rem;
+}
+
+.apply-to-coach h1 {
+    margin-top: 0;
+    margin-bottom: 1rem; /* Space between h1 and h3 elements */
+    font-size: 2.5rem;
+    font-family: 'Lobster', cursive; /* Apply Lobster font for a cooler look */
+    letter-spacing: 0.05em; /* Slightly increased letter spacing */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+    width: 100%; /* Full width to apply text alignment */
+}
+
+.apply-to-coach h3 {
+    margin: 0.5rem 0; /* Space between each h3 element */
+    text-align: left; /* Align h3 text to the left */
+    font-size: 1.5rem;
+    letter-spacing: 0.02em; /* Slightly increased letter spacing */
+    color: #003366; /* Dark blue text color */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
 
 
 @media (max-width: 768px) {
