@@ -1,98 +1,55 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 body, html {
     margin: 0;
     padding: 0;
-    height: 100%;
-    background-image: url('../public/images/home-page-background.jpg'); 
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-left: 2rem;    
-}
-
-.header-tags{
-    display: flex;
-    margin-right: 2rem;
-    font-size: 1.5rem;
-    
 }
 
 
-.header h1{
-    font-family: 'Lobster', cursive;
-    color: #ff6347; /* Choose a color that complements your design */
-    text-shadow: 1px 1px 2.2px rgba(0, 0, 0, 0.3);
-}
+@import "styles/partitions/navbar.css";
+@import "styles/partitions/homepage.css";
 
 
-.header-tags h3{
-    margin-left: 2.5rem;
-}
-
-.surf-lesson-image img{
-    height: 25rem;
-}
-
-.home-page {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    margin-left: 32rem;
-    margin-top: 5rem;
-    text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.7); /* Use rem for text shadow */
-    width: 50rem; /* Set width in rem */
-    background: rgba(0, 0, 0, 0.3); /* Slight background overlay for better readability */
-    padding: 1.25rem; /* Padding in rem */
-    border-radius: 1rem; /* Border radius in rem */
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5); /* Box shadow in rem */
-    backdrop-filter: blur(0.625rem); /* Blur in rem */
-}
-
-h1 {
-    font-size: 3em;
-    margin-bottom: 20px;
-}
-
-button {
-    background: linear-gradient(90deg, #ff8a00, #e52e71);
-    border: none;
-    color: white;
-    padding: 15px 30px;
-    font-size: 1.2em;
-    font-weight: bold;
-    border-radius: 30px;
-    cursor: pointer;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
-}
-
-
-
-
-@media (max-width: 768px){
-
-    .header{
+@media (max-width: 768px) {
+    .header {
         display: block;
         text-align: center;
+        margin-left: 0; /* Remove margin for small screens */
+        margin-right: 0; /* Remove margin for small screens */
     }
 
-    .header-tags{
+    .header-tags {
         display: block;
+        text-align: center; /* Center the header tags */
+        margin: 0 auto; /* Center the block horizontally */
+    }
+
+    .header-tags h3 {
+        margin: 1rem 0; /* Adjust spacing for small screens */
+    }
+
+    .home-page {
+        flex-direction: column; /* Stack content vertically */
+        align-items: center; /* Center content horizontally */
+        justify-content: center;
+        text-align: center; /* Center text */
+    }
+
+    .home-page-text {
+        margin-left: 1rem; /* Remove margin for small screens */
+        margin-right: 1rem; /* Add some margin on the right for small screens */
+        text-align: center; /* Center text inside home-page-text */
+    }
+
+    .home-page-text h1{
+        font-size: 1.8rem;
+        text-align: center;
+    }
+    
+    .surf-lesson-image img {
+        margin-top: -10rem;
+        height: 15rem;
+        width: 20rem;
+
     }
 }

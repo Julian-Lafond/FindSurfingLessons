@@ -1,0 +1,49 @@
+.surf-lesson-image img {
+    height: 25rem;
+    width: 100%; /* Make the image responsive */
+    max-width: 100%; /* Ensure it doesn't exceed the screen width */
+}
+
+.home-page {
+    background-image: url("/Applications/Find_Surfing_Lessons/find-surfing-lessons/public/images/home-page-background.jpg"); 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    height: 100vh;
+}
+
+.home-page-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    margin-left: 5rem; /* Adjust for larger screens */
+}
+
+.home-page-text h1 {
+    margin-bottom: 3rem;
+    color: black;
+}
+
+button {
+    background: linear-gradient(90deg, #ff8a00, #e52e71);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+}
