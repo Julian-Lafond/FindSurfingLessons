@@ -1,14 +1,14 @@
-require('dotenv').config(); // Load environment variables
-const express = require('express');
-const cors = require('cors');
-const { Pool } = require('pg');
+require('dotenv').config(); // Load environment variables. Store sensitive information
+const express = require('express'); //imports Express framework. Provides routing features
+const cors = require('cors'); //Imports CORS middleware. Allows requests from different pages
+const { Pool } = require('pg'); //Allows you to execute queries to integrate with PostgreSQL databases
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+const app = express();  //Creates an instance of the express application. Used to define routes, middleware etc
+const PORT = process.env.PORT || 5000;    //Holds port number
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors());  //Lets server accept requests from different websites
+app.use(express.json());  //Makes it easier for your server to read and use JSON data sent from clients
 
 // PostgreSQL Pool Configuration
 const pool = new Pool({
@@ -20,30 +20,31 @@ const pool = new Pool({
 });
 
 // Route to handle form submission
-app.post('/api/coaches', async (req, res) => {
-    const { firstName, lastName } = req.body;
+app.post('/api/coaches', async (req, res) => {      //When someone sends a POST request (to submit data) to the URL '/apis/coaches', the code inside the function will run.
+    const { firstName, lastName } = req.body;     //gets the first and last name from the request body 
     
     // Log input for debugging
     console.log('Received input:', { firstName, lastName });
 
     try {
-        const result = await pool.query(
-            'INSERT INTO coaches (first_name, last_name) VALUES ($1, $2) RETURNING *',
+        const result = await pool.query(      //Sends a command to database to insert a new coach to the coaches table
+            'INSERT INTO coaches (first_name, last_name) VALUES ($1, $2) RETURNING *',    //SQL command to add new row. $1 and $2 are replaced by the actual values. 
             [firstName, lastName]
         );
 
-        // Log the inserted row
-        console.log('Inserted row:', result.rows[0]);
+        console.log('Inserted row:', result.rows[0]);            // Log the inserted row
 
-        // Send successful response
-        res.status(201).json(result.rows[0]);
+        res.status(201).json(result.rows[0]);   //Sends a response back to the client saying the coach was added successfully
+      
     } catch (error) {
         console.error('Error inserting data:', error.message); // More detailed error logging
         res.status(500).json({ error: 'Error inserting data' });
     }
 });
 
+
 // Route to retrieve all coaches
+/** 
 app.get('/api/coaches', async (req, res) => {
     try {
         const result = await pool.query('SELECT first_name, last_name FROM coaches');
@@ -59,6 +60,7 @@ app.get('/api/coaches', async (req, res) => {
     }
 });
 
+**/
 // Start server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

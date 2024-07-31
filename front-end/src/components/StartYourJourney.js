@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
 
 const StartYourJourney = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [coaches, setCoaches] = useState([]);
 
-    useEffect(() => {
-        // Retrieve names from local storage
-        const storedFirstName = localStorage.getItem('firstName');
-        const storedLastName = localStorage.getItem('lastName');
-
-        if (storedFirstName) setFirstName(storedFirstName);
-        if (storedLastName) setLastName(storedLastName);
+    useEffect(() => {       //Runs when the component is first rendered
+        const storedCoaches = JSON.parse(localStorage.getItem('coaches')) || [];        //Gets list of coaches from local storage
+        setCoaches(storedCoaches);      
     }, []);
 
     return (
         <div>
-            <p>Find Your Coach Page</p>
-            {firstName && lastName && (
-                <p>Coach {firstName} {lastName}</p>
+            <h1>Find Your Coach Page</h1>
+            {coaches.length > 0 ? (
+                coaches.map((coach, index) => (
+                    <h2 key={index}>Coach {coach.firstName} {coach.lastName}</h2>
+                ))
+            ) : (
+                <p>No coaches found.</p>
             )}
         </div>
     );

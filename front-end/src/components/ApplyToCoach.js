@@ -5,29 +5,33 @@ export default function ApplyToCoach() {
     const [lastName, setLastName] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
+    
+    const handleSubmit = async (event) => {     //Runs when the form is submitted
+        event.preventDefault();     //Precents page from being refreshed
+    
         try {
-            const response = await fetch('http://localhost:5000/api/coaches', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+            const response = await fetch('http://localhost:5000/api/coaches', {     //Sends request to back end to add a new coach
+                method: 'POST',     //You want to send data to the server
+                headers: {      
+                    'Content-Type': 'application/json',     //Data being sent is in JSON format
                 },
-                body: JSON.stringify({ firstName, lastName }),
-            });
-
+                    body: JSON.stringify({ firstName, lastName }),      //Converts variables into JSON string format
+                });
+    
             if (response.ok) {
-                const data = await response.json();
+                const data = await response.json(); 
                 console.log('Coach added:', data);
-
+    
                 // Set success message
                 setSuccessMessage(`Coach ${data.first_name} ${data.last_name} added successfully!`);
-
-                // Store the names in local storage
-                localStorage.setItem('firstName', data.first_name);
-                localStorage.setItem('lastName', data.last_name);
-
+    
+                // Retrieve existing coaches from local storage
+                const existingCoaches = JSON.parse(localStorage.getItem('coaches')) || [];      //Get existing list of coaches from local storage, if no coaches, create empty array
+                existingCoaches.push({ firstName: data.first_name, lastName: data.last_name }); 
+    
+                // Store the updated list in local storage
+                localStorage.setItem('coaches', JSON.stringify(existingCoaches));
+    
                 // Optionally reset the form
                 setFirstName('');
                 setLastName('');
@@ -38,6 +42,7 @@ export default function ApplyToCoach() {
             console.error('Error:', error);
         }
     };
+    
 
     return (
         <div className="apply-to-coach-container">
