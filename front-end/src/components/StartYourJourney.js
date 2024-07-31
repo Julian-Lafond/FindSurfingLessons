@@ -13,7 +13,10 @@ const StartYourJourney = () => {
             <h1>Find Your Coach Page</h1>
             {coaches.length > 0 ? (
                 coaches.map((coach, index) => (
-                    <h2 key={index}>Coach {coach.firstName} {coach.lastName}</h2>
+                    <div>
+                        <h2 key={index}>Coach {coach.firstName} {coach.lastName}</h2>
+                        <h3>City: {coach.city}</h3>
+                    </div>
                 ))
             ) : (
                 <p>No coaches found.</p>
@@ -21,5 +24,6 @@ const StartYourJourney = () => {
         </div>
     );
 };
+
 
 export default StartYourJourney;
