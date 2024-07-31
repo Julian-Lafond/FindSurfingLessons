@@ -5,12 +5,14 @@ export default function ApplyToCoach() {
     const [lastName, setLastName] = useState('');
     const [city, setCityName] = useState('')
     const [experience, setExperience] = useState('');
+    const [privateLessonRate, setPrivateLessonRate] = useState('');
+
+
     const [successMessage, setSuccessMessage] = useState('');
     const [warning, setWarning] = useState('');
 
     const handleSubmit = async (event) => {     //Runs when the form is submitted
         event.preventDefault();     //Precents page from being refreshed
-
 
         // Trim the experience input to remove whitespace
         const experienceValue = experience.trim(); 
@@ -19,6 +21,13 @@ export default function ApplyToCoach() {
             return
         } else {
             setWarning('');
+        }
+
+        // Trim the privateLessonRate input to remove whitespace and dollar sign
+        const privateLessonRateValue = privateLessonRate.trim().replace('$', '');
+        if (!/^\d+(\.\d{2})?$/.test(privateLessonRateValue)) { // Regular expression checks for numbers with two decimal places
+            setWarning("Please enter a valid number for private lesson rate.");
+            return;
         }
 
         // Validation for firstName, lastName, and city (only letters)
@@ -43,7 +52,7 @@ export default function ApplyToCoach() {
                 headers: {      
                     'Content-Type': 'application/json',     //Data being sent is in JSON format
                 },
-                    body: JSON.stringify({ firstName, lastName, city, experience }),      //Converts variables into JSON string format
+                    body: JSON.stringify({ firstName, lastName, city, experience, privateLessonRate: privateLessonRateValue }),      //Converts variables into JSON string format
                 });
     
             if (response.ok) {
@@ -51,7 +60,7 @@ export default function ApplyToCoach() {
                 console.log('Coach added:', data);
     
                 // Set success message
-                setSuccessMessage(`Coach ${data.first_name} ${data.last_name} ${data.city} ${data.experience} added successfully!`);
+                setSuccessMessage(`Coach ${data.first_name} ${data.last_name} ${data.city} ${data.experience} ${data.privatelessonrate} added successfully!`);
     
                 // Retrieve existing coaches from local storage
                 const existingCoaches = JSON.parse(localStorage.getItem('coaches')) || [];      //Get existing list of coaches from local storage, if no coaches, create empty array
@@ -60,7 +69,10 @@ export default function ApplyToCoach() {
                     firstName: data.first_name, 
                     lastName: data.last_name, 
                     city: data.city, 
-                    experience: data.experience}); 
+                    experience: data.experience,
+                    privateLessonRate: data.privatelessonrate,
+                
+                }); 
     
                 // Store the updated list in local storage
                 localStorage.setItem('coaches', JSON.stringify(existingCoaches));
@@ -69,7 +81,8 @@ export default function ApplyToCoach() {
                 setFirstName('');
                 setLastName('');
                 setCityName('');
-                setExperience('')
+                setExperience('');
+                setPrivateLessonRate('');
             } else {
                 console.error('Error adding coach:', response.statusText);
             }
@@ -120,6 +133,14 @@ export default function ApplyToCoach() {
                             placeholder="Experience"
                             value={experience}
                             onChange={(e) => setExperience(e.target.value)}
+                            className="input-field"
+                            required
+                        />
+                        <input
+                            type="text"
+                            placeholder="Private Lesson Rate"
+                            value={privateLessonRate}
+                            onChange={(e) => setPrivateLessonRate(e.target.value)}
                             className="input-field"
                             required
                         />

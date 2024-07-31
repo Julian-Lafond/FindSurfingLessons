@@ -17,6 +17,7 @@ const StartYourJourney = () => {
                         <h2>Coach {coach.firstName} {coach.lastName}</h2>
                         <h3>{coach.experience} years of experience</h3>
                         <h4>City: {coach.city}</h4>
+                        <p>Private Lesson Rate: ${coach.privateLessonRate}/hr</p>
                     </div>
                 ))
             ) : (
