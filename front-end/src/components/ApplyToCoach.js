@@ -4,17 +4,46 @@ export default function ApplyToCoach() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [city, setCityName] = useState('')
+    const [experience, setExperience] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [warning, setWarning] = useState('');
 
     const handleSubmit = async (event) => {     //Runs when the form is submitted
         event.preventDefault();     //Precents page from being refreshed
+
+
+        // Trim the experience input to remove whitespace
+        const experienceValue = experience.trim(); 
+        if (!/^\d+$/.test(experienceValue)) { // Regular expression checks for positive integers only
+            setWarning("Please enter a number for experience.") 
+            return
+        } else {
+            setWarning('');
+        }
+
+        // Validation for firstName, lastName, and city (only letters)
+        if (!/^[a-zA-Z]+$/.test(firstName)) {
+            setWarning("First name can only contain letters.");
+            return;
+        }
+        if (!/^[a-zA-Z]+$/.test(lastName)) {
+            setWarning("Last name can only contain letters.");
+            return;
+        }
+        if (!/^[a-zA-Z\s]+$/.test(city)) { // Allowing spaces for city names
+            setWarning("City can only contain letters and spaces.");
+            return;
+        }
+
+        setWarning('')
+
         try {
             const response = await fetch('http://localhost:5000/api/coaches', {     //Sends request to back end to add a new coach
                 method: 'POST',     //You want to send data to the server
                 headers: {      
                     'Content-Type': 'application/json',     //Data being sent is in JSON format
                 },
-                    body: JSON.stringify({ firstName, lastName, city }),      //Converts variables into JSON string format
+                    body: JSON.stringify({ firstName, lastName, city, experience }),      //Converts variables into JSON string format
                 });
     
             if (response.ok) {
@@ -22,11 +51,16 @@ export default function ApplyToCoach() {
                 console.log('Coach added:', data);
     
                 // Set success message
-                setSuccessMessage(`Coach ${data.first_name} ${data.last_name} ${data.city} added successfully!`);
+                setSuccessMessage(`Coach ${data.first_name} ${data.last_name} ${data.city} ${data.experience} added successfully!`);
     
                 // Retrieve existing coaches from local storage
                 const existingCoaches = JSON.parse(localStorage.getItem('coaches')) || [];      //Get existing list of coaches from local storage, if no coaches, create empty array
-                existingCoaches.push({ firstName: data.first_name, lastName: data.last_name, city: data.city}); 
+                existingCoaches.push({ 
+                    id: existingCoaches.length + 1,
+                    firstName: data.first_name, 
+                    lastName: data.last_name, 
+                    city: data.city, 
+                    experience: data.experience}); 
     
                 // Store the updated list in local storage
                 localStorage.setItem('coaches', JSON.stringify(existingCoaches));
@@ -35,6 +69,7 @@ export default function ApplyToCoach() {
                 setFirstName('');
                 setLastName('');
                 setCityName('');
+                setExperience('')
             } else {
                 console.error('Error adding coach:', response.statusText);
             }
@@ -62,6 +97,7 @@ export default function ApplyToCoach() {
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                             className="input-field"
+                            required
                         />
                         <input
                             type="text"
@@ -69,6 +105,7 @@ export default function ApplyToCoach() {
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
                             className="input-field"
+                            required
                         />
                         <input
                             type="text"
@@ -76,7 +113,17 @@ export default function ApplyToCoach() {
                             value={city}
                             onChange={(e) => setCityName(e.target.value)}
                             className="input-field"
+                            required
                         />
+                        <input
+                            type="text"
+                            placeholder="Experience"
+                            value={experience}
+                            onChange={(e) => setExperience(e.target.value)}
+                            className="input-field"
+                            required
+                        />
+                        {warning && <p style = {{color: 'red'}}>{warning} </p>}
                         <button type="submit" className="submit-button">Submit</button>
                     </div>
                 </form>
