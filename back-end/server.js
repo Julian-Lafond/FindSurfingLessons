@@ -22,23 +22,24 @@ const pool = new Pool({
 // Route to handle form submission
 app.post("/api/coaches", async (req, res) => {
   //When someone sends a POST request (to submit data) to the URL '/apis/coaches', the code inside the function will run.
-  const { firstName, lastName, city, experience, privateLessonRate, groupLessonRate } = req.body; //gets the first and last name from the request body
+  const { firstName, lastName, city, state, experience, privateLessonRate, groupLessonRate } = req.body; //gets the first and last name from the request body
 
   // Log input for debugging
   console.log("Received input:", {
     firstName,
     lastName,
     city,
+    state,
     experience,
     privateLessonRate,
-    groupLessonRate
+    groupLessonRate, 
   });
 
   try {
     const result = await pool.query(
       //Sends a command to database to insert a new coach to the coaches table
-      "INSERT INTO coaches (first_name, last_name, city, experience, privatelessonrate, grouplessonrate) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *", //SQL command to add new row. $1 and $2 are replaced by the actual values.
-      [firstName, lastName, city, experience, privateLessonRate, groupLessonRate]
+      "INSERT INTO coaches (first_name, last_name, city, experience, privatelessonrate, grouplessonrate, state) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *", //SQL command to add new row. $1 and $2 are replaced by the actual values.
+      [firstName, lastName, city, experience, privateLessonRate, groupLessonRate, state]
     );
 
     console.log("Inserted row:", result.rows[0]); // Log the inserted row

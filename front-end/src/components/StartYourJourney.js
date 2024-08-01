@@ -2,31 +2,66 @@ import React, { useEffect, useState } from "react";
 
 const StartYourJourney = () => {
   const [coaches, setCoaches] = useState([]);
+  const [findCity, setFindCity] = useState('')
+  const [findState, setFindState] = useState('')
+  const [filteredCoaches, setFilteredCoaches] = useState('')
 
   useEffect(() => {
     //Runs when the component is first rendered
     const storedCoaches = JSON.parse(localStorage.getItem("coaches")) || []; //Gets list of coaches from local storage
     setCoaches(storedCoaches);
   }, []);
+  
+  
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const filtered = coaches.filter(coach =>
+        coach.city.toLowerCase().includes(findCity.toLowerCase()) &&
+        coach.state.toLowerCase().includes(findState.toLowerCase())
+        );
+    setFilteredCoaches(filtered)
+    
+  }
+  
 
   return (
     <div className="start-your-journey">
-      <h1>Surfing Coaches Near Your</h1>
+      <h1>Surfing Coaches Near You</h1>
+      <form onSubmit={handleSubmit}>
+      <input 
+            type = "text"
+            placeholder="City"
+            value = {findCity}
+            onChange = {(e) => setFindCity(e.target.value)}
+            required
+        />
+        <input 
+            type = "text"
+            placeholder="State"
+            value = {findState}
+            onChange = {(e) => setFindState(e.target.value)}
+            required
+
+        />
+        <button type = "submit">Find</button>
+    </form>
       <div className="start-your-journey-container">
-        {coaches.length > 0 ? (
-          coaches.map((coach, index) => (
+        {filteredCoaches.length > 0 ? (
+          filteredCoaches.map((coach, index) => (
             <div className="coach-card" key={coach.id}>
               <h2>
                 Coach {coach.firstName} {coach.lastName}
               </h2>
               <h3>{coach.experience} years of experience</h3>
-              <h4>City: {coach.city}</h4>
+              <h4>{coach.city}, {coach.state}</h4>
               <p>Private Lesson Rate: ${coach.privateLessonRate}/hr</p>
               <p>Group Lesson Rate: ${coach.groupLessonRate}/hr</p>
             </div>
           ))
         ) : (
-          <p>No coaches found.</p>
+        <div className = "no-coaches-message">
+          <p>No Coaches in this Area</p>
+        </div>
         )}
       </div>
     </div>

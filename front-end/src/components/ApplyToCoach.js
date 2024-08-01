@@ -7,6 +7,7 @@ export default function ApplyToCoach() {
   const [experience, setExperience] = useState("");
   const [privateLessonRate, setPrivateLessonRate] = useState("");
   const [groupLessonRate, setGroupLessonRate] = useState("");
+  const [state, setStateName] = useState("");
 
   const [successMessage, setSuccessMessage] = useState("");
   const [warning, setWarning] = useState("");
@@ -32,6 +33,12 @@ export default function ApplyToCoach() {
       setWarning("Please enter a valid number for private lesson rate.");
       return;
     }
+    const groupLessonRateValue = groupLessonRate.trim().replace("$", "");
+    if (!/^\d+(\.\d{2})?$/.test(groupLessonRate)) {
+      // Regular expression checks for numbers with two decimal places
+      setWarning("Please enter a valid number for private lesson rate.");
+      return;
+    }
 
     // Validation for firstName, lastName, and city (only letters)
     if (!/^[a-zA-Z]+$/.test(firstName)) {
@@ -43,6 +50,11 @@ export default function ApplyToCoach() {
       return;
     }
     if (!/^[a-zA-Z\s]+$/.test(city)) {
+      // Allowing spaces for city names
+      setWarning("City can only contain letters and spaces.");
+      return;
+    }
+    if (!/^[a-zA-Z\s]+$/.test(state)) {
       // Allowing spaces for city names
       setWarning("City can only contain letters and spaces.");
       return;
@@ -63,7 +75,8 @@ export default function ApplyToCoach() {
           city,
           experience,
           privateLessonRate: privateLessonRateValue,
-          groupLessonRate,
+          groupLessonRate: groupLessonRateValue,
+          state,
         }), //Converts variables into JSON string format
       });
 
@@ -73,7 +86,7 @@ export default function ApplyToCoach() {
 
         // Set success message
         setSuccessMessage(
-          `Coach ${data.first_name} ${data.last_name} ${data.city} ${data.experience} ${data.privatelessonrate} ${data.groupLessonRate} added successfully!`
+          `Coach ${data.first_name} ${data.last_name} ${data.city} ${data.state} ${data.experience} ${data.privatelessonrate} ${data.groupLessonRate} added successfully!`
         );
 
         // Retrieve existing coaches from local storage
@@ -84,6 +97,7 @@ export default function ApplyToCoach() {
           firstName: data.first_name,
           lastName: data.last_name,
           city: data.city,
+          state: data.state,
           experience: data.experience,
           privateLessonRate: data.privatelessonrate,
           groupLessonRate: data.grouplessonrate,
@@ -96,6 +110,7 @@ export default function ApplyToCoach() {
         setFirstName("");
         setLastName("");
         setCityName("");
+        setStateName("");
         setExperience("");
         setPrivateLessonRate("");
         setGroupLessonRate("")
@@ -146,7 +161,15 @@ export default function ApplyToCoach() {
             />
             <input
               type="text"
-              placeholder="Experience"
+              placeholder="State"
+              value={state}
+              onChange={(e) => setStateName(e.target.value)}
+              className="input-field"
+              required
+            />
+            <input
+              type="text"
+              placeholder="Years of Experience"
               value={experience}
               onChange={(e) => setExperience(e.target.value)}
               className="input-field"
