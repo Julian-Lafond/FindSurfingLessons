@@ -1,49 +1,56 @@
-require('dotenv').config(); // Load environment variables. Store sensitive information
-const express = require('express'); //imports Express framework. Provides routing features
-const cors = require('cors'); //Imports CORS middleware. Allows requests from different pages
-const { Pool } = require('pg'); //Allows you to execute queries to integrate with PostgreSQL databases
+require("dotenv").config(); // Load environment variables. Store sensitive information
+const express = require("express"); //imports Express framework. Provides routing features
+const cors = require("cors"); //Imports CORS middleware. Allows requests from different pages
+const { Pool } = require("pg"); //Allows you to execute queries to integrate with PostgreSQL databases
 
-const app = express();  //Creates an instance of the express application. Used to define routes, middleware etc
-const PORT = process.env.PORT || 5000;    //Holds port number
+const app = express(); //Creates an instance of the express application. Used to define routes, middleware etc
+const PORT = process.env.PORT || 5000; //Holds port number
 
 // Middleware
-app.use(cors());  //Lets server accept requests from different websites
-app.use(express.json());  //Makes it easier for your server to read and use JSON data sent from clients
+app.use(cors()); //Lets server accept requests from different websites
+app.use(express.json()); //Makes it easier for your server to read and use JSON data sent from clients
 
 // PostgreSQL Pool Configuration
 const pool = new Pool({
-    user: process.env.PG_USER || 'postgres', // Use environment variable or default
-    host: process.env.PG_HOST || 'localhost',
-    database: process.env.PG_DATABASE || 'surf_coaches',
-    password: process.env.PG_PASSWORD || 'Julian17!',
-    port: process.env.PG_PORT || 5432,
+  user: process.env.PG_USER || "postgres", // Use environment variable or default
+  host: process.env.PG_HOST || "localhost",
+  database: process.env.PG_DATABASE || "surf_coaches",
+  password: process.env.PG_PASSWORD || "Julian17!",
+  port: process.env.PG_PORT || 5432,
 });
 
 // Route to handle form submission
-app.post('/api/coaches', async (req, res) => {      //When someone sends a POST request (to submit data) to the URL '/apis/coaches', the code inside the function will run.
-    const { firstName, lastName, city, experience, privateLessonRate} = req.body;     //gets the first and last name from the request body 
-    
-    // Log input for debugging
-    console.log('Received input:', { firstName, lastName, city, experience, privateLessonRate });
+app.post("/api/coaches", async (req, res) => {
+  //When someone sends a POST request (to submit data) to the URL '/apis/coaches', the code inside the function will run.
+  const { firstName, lastName, city, experience, privateLessonRate, groupLessonRate } = req.body; //gets the first and last name from the request body
 
-    try {
-        const result = await pool.query(      //Sends a command to database to insert a new coach to the coaches table
-            'INSERT INTO coaches (first_name, last_name, city, experience, privatelessonrate) VALUES ($1, $2, $3, $4, $5) RETURNING *',    //SQL command to add new row. $1 and $2 are replaced by the actual values. 
-            [firstName, lastName, city, experience, privateLessonRate]
-        );
+  // Log input for debugging
+  console.log("Received input:", {
+    firstName,
+    lastName,
+    city,
+    experience,
+    privateLessonRate,
+    groupLessonRate
+  });
 
-        console.log('Inserted row:', result.rows[0]);            // Log the inserted row
+  try {
+    const result = await pool.query(
+      //Sends a command to database to insert a new coach to the coaches table
+      "INSERT INTO coaches (first_name, last_name, city, experience, privatelessonrate, grouplessonrate) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *", //SQL command to add new row. $1 and $2 are replaced by the actual values.
+      [firstName, lastName, city, experience, privateLessonRate, groupLessonRate]
+    );
 
-        res.status(201).json(result.rows[0]);   //Sends a response back to the client saying the coach was added successfully
-      
-    } catch (error) {
-        console.error('Error inserting data:', error.message); // More detailed error logging
-        res.status(500).json({ error: 'Error inserting data' });
-    }
+    console.log("Inserted row:", result.rows[0]); // Log the inserted row
+
+    res.status(201).json(result.rows[0]); //Sends a response back to the client saying the coach was added successfully
+  } catch (error) {
+    console.error("Error inserting data:", error.message); // More detailed error logging
+    res.status(500).json({ error: "Error inserting data" });
+  }
 });
-
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
