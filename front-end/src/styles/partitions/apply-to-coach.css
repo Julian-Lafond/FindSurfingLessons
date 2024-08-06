@@ -3,8 +3,9 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  height: 100vh;
+  height: 250vh;
   display: flex;
+  flex-direction: row;
   justify-content: flex-start; /* Center horizontally */
   align-items: center; /* Center vertically */
 }
@@ -24,6 +25,7 @@
   padding: 3rem; /* Adjusted padding for better spacing */
   border-radius: 10px;
   width: 60%;
+  margin-top: -40rem;
   max-width: 600px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Slightly darker shadow for better contrast */
   margin-left: 0; /* Centered box, no left margin */
@@ -32,6 +34,58 @@
   margin-left: 7rem;
   margin-bottom: 5rem;
 }
+
+.apply-to-coach-wt .apply-to-coach-info-container {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.apply-to-coach-form h4{
+  text-align: center;
+}
+
+.apply-to-coach-two {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid rgba(0, 119, 190, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+  padding: 3rem;
+  border-radius: 10px;
+  width: 60%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  text-align: left;
+  font-family: "Roboto", sans-serif;
+  margin-left: 7rem;
+
+}
+
+.apply-to-coach-two h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-family: "Lobster", cursive;
+  letter-spacing: 0.05em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  color: #003366;
+  text-align: center;
+}
+
+.apply-to-coach-two p {
+  margin: 1.5rem 0;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+.apply-to-coach-two p strong {
+  font-size: 1.3rem;
+  color: #1e90ff;
+}
+
 
 .apply-to-coach h1 {
   margin-top: 0;
@@ -58,6 +112,33 @@
   align-items: center;
 }
 
+
+.apply-to-coach-form h2 {
+  font-size: 2.5rem;
+  color: #003366;
+  margin-bottom: 1rem;
+  font-family: 'Lobster', cursive;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.apply-to-coach-form h4 {
+  font-size: 1.5rem;
+  color: #1e90ff;
+  margin-bottom: 2rem;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+}
+
+.profile-about {
+  height: 240px;
+  width: 500px;
+  padding: 10px; /* Add padding for better appearance */
+  font-size: 16px; /* Adjust font size */
+  border: 1px solid #ccc; /* Add a border */
+  border-radius: 4px; /* Optional: round corners */
+  resize: none; /* Prevent resizing if you want a fixed size */
+}
+
 .input-field {
   padding: 15px;
   border: none;
@@ -76,10 +157,11 @@
     255,
     0.8
   ); /* Semi-transparent white background */
-  margin-left: 5rem;
+  margin-right: 5rem;
   border-radius: 10px; /* Rounded corners */
   padding: 20px; /* Padding inside the box */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin-top: -30rem;
 }
 
 .input-field::placeholder {
@@ -89,6 +171,24 @@
 .input-field:focus {
   border: 2px solid #1e90ff; /* Highlight on focus */
   background: rgba(255, 255, 255, 0.2);
+}
+
+.file-input {
+  display: none; /* Hide the default file input */
+}
+
+.file-input-label {
+  display: inline-block;
+  padding: 15px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  color: grey; /* Text color */
+  background-color: white; /* Background color */
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 1rem; /* Space around the label */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .submit-button {

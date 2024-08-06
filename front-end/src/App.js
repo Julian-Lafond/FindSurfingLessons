@@ -6,6 +6,7 @@ import About from "./components/About"
 import Contact from "./components/Contact"
 import Header from "./components/Header"
 import HomePage from "./components/HomePage"
+import Profile from "./components/Profile"
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path = "/apply-to-coach" element = {<ApplyToCoach />} />
           <Route path = "/about" element = {<About /> } />
           <Route path = "/contact" element = {<Contact /> } />
+          <Route path = "/profile/:id" element = {<Profile /> } />
         </Routes>
       </div>
     </Router>

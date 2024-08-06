@@ -1,18 +1,36 @@
-require("dotenv").config(); // Load environment variables. Store sensitive information
-const express = require("express"); //imports Express framework. Provides routing features
-const cors = require("cors"); //Imports CORS middleware. Allows requests from different pages
-const { Pool } = require("pg"); //Allows you to execute queries to integrate with PostgreSQL databases
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const { Pool } = require("pg");
+const multer = require("multer");
+const path = require("path");
 
-const app = express(); //Creates an instance of the express application. Used to define routes, middleware etc
-const PORT = process.env.PORT || 5000; //Holds port number
+const app = express();
+const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors()); //Lets server accept requests from different websites
-app.use(express.json()); //Makes it easier for your server to read and use JSON data sent from clients
+app.use(cors());
+app.use(express.json());
+
+// Serve static files from the uploads directory
+app.use('/uploads', express.static('uploads'));
+
+// Configure storage for multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  },
+});
+
+
+const upload = multer({ storage });
 
 // PostgreSQL Pool Configuration
 const pool = new Pool({
-  user: process.env.PG_USER || "postgres", // Use environment variable or default
+  user: process.env.PG_USER || "postgres",
   host: process.env.PG_HOST || "localhost",
   database: process.env.PG_DATABASE || "surf_coaches",
   password: process.env.PG_PASSWORD || "Julian17!",
@@ -20,36 +38,45 @@ const pool = new Pool({
 });
 
 // Route to handle form submission
-app.post("/api/coaches", async (req, res) => {
-  //When someone sends a POST request (to submit data) to the URL '/apis/coaches', the code inside the function will run.
-  const { firstName, lastName, city, state, experience, privateLessonRate, groupLessonRate } = req.body; //gets the first and last name from the request body
-
-  // Log input for debugging
-  console.log("Received input:", {
+app.post("/api/coaches", upload.single("profilePicture"), async (req, res) => {
+  console.log("File received:", req.file);
+  const {
     firstName,
     lastName,
     city,
     state,
     experience,
     privateLessonRate,
-    groupLessonRate, 
-  });
+    groupLessonRate,
+    profileAbout,
+  } = req.body;
+
+  const profilePicture = req.file ? `/uploads/${req.file.filename}` : null;
+  console.log("Profile picture path:", profilePicture); // Log the profile picture path
 
   try {
     const result = await pool.query(
-      //Sends a command to database to insert a new coach to the coaches table
-      "INSERT INTO coaches (first_name, last_name, city, experience, privatelessonrate, grouplessonrate, state) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *", //SQL command to add new row. $1 and $2 are replaced by the actual values.
-      [firstName, lastName, city, experience, privateLessonRate, groupLessonRate, state]
+      "INSERT INTO coaches (first_name, last_name, city, experience, privatelessonrate, grouplessonrate, state, profile_picture, profile_about) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
+      [
+        firstName,
+        lastName,
+        city,
+        experience,
+        privateLessonRate,
+        groupLessonRate,
+        state,
+        profilePicture,
+        profileAbout
+      ]
     );
 
-    console.log("Inserted row:", result.rows[0]); // Log the inserted row
-
-    res.status(201).json(result.rows[0]); //Sends a response back to the client saying the coach was added successfully
+    res.status(201).json(result.rows[0]);
   } catch (error) {
-    console.error("Error inserting data:", error.message); // More detailed error logging
+    console.error("Error inserting data:", error.message);
     res.status(500).json({ error: "Error inserting data" });
   }
 });
+
 
 // Start server
 app.listen(PORT, () => {
